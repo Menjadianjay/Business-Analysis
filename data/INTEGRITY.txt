@@ -1,0 +1,33 @@
+Retail star schema: what was checked, and what it returned
+==============================================================
+Run with DuckDB against these exact files. DuckDB shares no code with
+the generator, so this is an independent check rather than the tool
+marking its own homework.
+
+EVERY JOIN RESOLVES
+  fact_sales -> dim_date       0 orphaned rows
+  fact_sales -> dim_product    0 orphaned rows
+  fact_sales -> dim_customer   0 orphaned rows
+  fact_sales -> dim_store      0 orphaned rows
+
+EVERY DIMENSION KEY IS UNIQUE
+  dim_date       0 duplicates across   730 rows
+  dim_product    0 duplicates across   400 rows
+  dim_customer   0 duplicates across  2000 rows
+  dim_store      0 duplicates across    40 rows
+
+DECLARED CATEGORY SHARE OF REVENUE
+  Electronics   42.00%   declared 42%
+  Home          26.00%   declared 26%
+  Apparel       20.00%   declared 20%
+  Grocery       12.00%   declared 12%
+
+DECLARED MONTHLY REVENUE
+  2024-01       820,000.00   declared 820,000
+  2024-12     1,150,000.00   declared 1,150,000
+  2025-12     1,480,000.00   declared 1,480,000
+
+fact_sales rows: 60,000
+
+Nothing here is scraped or sampled. No real customer, product or
+transaction exists. The numbers are solved for, not measured.
