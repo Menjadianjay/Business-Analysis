@@ -121,10 +121,3 @@ Simpan template ini di `/templates/case-study-template.md`.
 - **Iteratif** — case study bisa direvisi ketika ada data atau perspektif baru.
 
 ---
-
-## Langkah Selanjutnya
-
-- [ ] Finalisasi anggota tim dan pembagian peran
-- [ ] Buat `framework.md` dan `case-study-template.md`
-- [ ] Pilih 1 case study pertama sebagai pilot
-- [ ] Jadwalkan sesi kickoff tim
