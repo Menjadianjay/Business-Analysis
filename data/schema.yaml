@@ -1,0 +1,123 @@
+# A star schema, the shape a flat CSV cannot express.
+#
+# Dimensional modelling is the skill BI learners are trying to practise, and it
+# is the one thing every commodity mock-data generator cannot demonstrate: they
+# hand you one flat file, and a flat file has no joins to practise on.
+#
+# Four dimensions and one fact table. Every foreign key resolves, monthly
+# revenue lands on a declared figure, and category shares hold exactly, so a
+# learner can check their own SQL against a number that is known to be right.
+#
+#   pip install misata
+#   misata generate --config schema.yaml --output-dir ./out
+
+name: retail_star
+seed: 21
+
+tables:
+  dim_date:
+    rows: 730
+    columns:
+      date_key: {type: integer, primary_key: true}
+      full_date: {type: date, start: "2024-01-01", end: "2025-12-31"}
+      day_of_week:
+        type: categorical
+        choices: [Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday]
+      month_name:
+        type: categorical
+        choices: [January, February, March, April, May, June,
+                  July, August, September, October, November, December]
+      quarter: {type: categorical, choices: [Q1, Q2, Q3, Q4]}
+      is_weekend: {type: boolean}
+
+  dim_product:
+    rows: 400
+    columns:
+      product_key: {type: integer, primary_key: true}
+      product_name: {type: text, text_type: sentence}
+      category:
+        type: categorical
+        choices: [Electronics, Home, Apparel, Grocery]
+      subcategory:
+        type: categorical
+        choices: [Premium, Standard, Budget]
+      unit_cost: {type: float, min: 2, max: 400, decimals: 2}
+      list_price: {type: float, min: 5, max: 900, decimals: 2}
+
+  dim_customer:
+    rows: 2000
+    columns:
+      customer_key: {type: integer, primary_key: true}
+      customer_name: {type: text, text_type: name}
+      email: {type: text, text_type: email}
+      city: {type: text, text_type: city}
+      country:
+        type: categorical
+        choices: [US, UK, DE, IN, BR, CA]
+        probabilities: [0.34, 0.18, 0.14, 0.16, 0.10, 0.08]
+      segment:
+        type: categorical
+        choices: [Consumer, Corporate, Home Office]
+        probabilities: [0.55, 0.30, 0.15]
+
+  dim_store:
+    rows: 40
+    columns:
+      store_key: {type: integer, primary_key: true}
+      store_name: {type: text, text_type: sentence}
+      region:
+        type: categorical
+        choices: [North, South, East, West]
+      store_type:
+        type: categorical
+        choices: [Flagship, Standard, Outlet]
+
+  fact_sales:
+    rows: 60000
+    columns:
+      sale_id: {type: integer, primary_key: true}
+      date_key: {type: foreign_key, references: dim_date.date_key}
+      product_key: {type: foreign_key, references: dim_product.product_key}
+      customer_key: {type: foreign_key, references: dim_customer.customer_key}
+      store_key: {type: foreign_key, references: dim_store.store_key}
+      sold_at: {type: datetime, start: "2024-01-01", end: "2025-12-31"}
+      quantity: {type: integer, min: 1, max: 8}
+      unit_price: {type: float, min: 5, max: 900, decimals: 2}
+      discount_pct: {type: float, min: 0, max: 0.35, decimals: 2}
+      revenue: {type: float, min: 5, max: 5000, decimals: 2}
+      category:
+        type: categorical
+        choices: [Electronics, Home, Apparel, Grocery]
+
+relationships:
+  # Every join a learner will practise, stated rather than inferred. The engine
+  # refused to generate until all four were declared, which is the behaviour you
+  # want: a fact table with an unresolvable key is not a star schema.
+  - {parent_table: dim_date,     parent_key: date_key,     child_table: fact_sales, child_key: date_key}
+  - {parent_table: dim_product,  parent_key: product_key,  child_table: fact_sales, child_key: product_key}
+  - {parent_table: dim_customer, parent_key: customer_key, child_table: fact_sales, child_key: customer_key}
+  - {parent_table: dim_store,    parent_key: store_key,    child_table: fact_sales, child_key: store_key}
+
+outcome_curves:
+  # Monthly revenue is declared, so a learner's own GROUP BY has an answer
+  # that is known to be correct rather than merely plausible.
+  - table: fact_sales
+    column: revenue
+    time_column: sold_at
+    time_unit: month
+    start_date: "2024-01-01"
+    curve_points:
+      - {month: 1, target_value: 820000}
+      - {month: 12, target_value: 1150000}
+      - {month: 24, target_value: 1480000}
+
+group_shares:
+  # Exact category mix, so a pie chart has a right answer.
+  - table: fact_sales
+    group_column: category
+    measure: revenue
+    shares:
+      Electronics: 0.42
+      Home: 0.26
+      Apparel: 0.20
+      Grocery: 0.12
