@@ -10,7 +10,7 @@ Output akhir dari setiap case study idealnya bukan sekadar analisis akademis, ta
 
 ---
 
-## Setup Lokal 
+## Setup Lokal
 
 Repo ini menyediakan dataset retail star-schema (`data/`) untuk latihan query
 dan analisis data — satu fact table + empat dimension table, lengkap dengan
@@ -19,11 +19,14 @@ jawaban yang sudah diverifikasi (lihat [`data/README.md`](data/README.md)).
 Untuk load dataset ini ke database dan latihan query beneran, jalankan
 PostgreSQL lokal lewat Docker:
 
-[Docker.md](Docker.md)** — cara install & jalankan PostgreSQL di Docker,
+**[Docker.md](Docker.md)** — cara install & jalankan PostgreSQL di Docker,
 sampai connect dari VS Code PostgreSQL extension.
 
-[Data-Integration-Docker.md](Data-Integration-Docker.md)** — cara load
+**[Data-Integration-Docker.md](Data-Integration-Docker.md)** — cara load
 CSV di `data/` ke dalam database tersebut.
+
+**[Supabase-Migration.md](Supabase-Migration.md)** — cara pindahin data
+itu ke Supabase supaya bisa diakses online / tanpa Docker.
 
 ---
 
