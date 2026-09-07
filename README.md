@@ -22,6 +22,9 @@ PostgreSQL lokal lewat Docker:
 [Docker.md](Docker.md)** — cara install & jalankan PostgreSQL di Docker,
 sampai connect dari VS Code PostgreSQL extension.
 
+[Data-Integration-Docker.md](Data-Integration-Docker.md)** — cara load
+CSV di `data/` ke dalam database tersebut.
+
 ---
 
 ## Tujuan

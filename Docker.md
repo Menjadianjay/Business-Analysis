@@ -12,6 +12,8 @@ tanpa perlu install PostgreSQL langsung di OS masing-masing.
 4. [Connect dari VS Code (extension PostgreSQL)](#4-connect-dari-vs-code-extension-postgresql)
 5. [Command Docker sehari-hari](#5-command-docker-sehari-hari)
 
+Lanjut load dataset `data/` ke database → [Data-Integration-Docker.md](Data-Integration-Docker.md)
+
 ---
 
 ## 1. Pasang & aktifkan Docker
