@@ -117,3 +117,8 @@ Lalu ulangi step 4. Atau, kalau mau benar-benar dari nol (volume ikut
 kehapus), lihat
 [Docker.md § 5](Docker.md#5-command-docker-sehari-hari) untuk `docker rm -f`
 lalu bikin ulang container-nya.
+
+---
+
+Mau data ini online / bisa diakses tim tanpa jalanin Docker masing-masing?
+Lanjut ke [Supabase-Migration.md](Supabase-Migration.md).
