@@ -10,6 +10,20 @@ Output akhir dari setiap case study idealnya bukan sekadar analisis akademis, ta
 
 ---
 
+## Setup Lokal 
+
+Repo ini menyediakan dataset retail star-schema (`data/`) untuk latihan query
+dan analisis data — satu fact table + empat dimension table, lengkap dengan
+jawaban yang sudah diverifikasi (lihat [`data/README.md`](data/README.md)).
+
+Untuk load dataset ini ke database dan latihan query beneran, jalankan
+PostgreSQL lokal lewat Docker:
+
+[Docker.md](Docker.md)** — cara install & jalankan PostgreSQL di Docker,
+sampai connect dari VS Code PostgreSQL extension.
+
+---
+
 ## Tujuan
 
 - Melatih kemampuan berpikir strategis lintas fungsi (bisnis, produk, data, UX).
